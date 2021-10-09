@@ -15,7 +15,7 @@
   font-size: 25px;
   font-weight: 750;
 }
-.today{
+.today {
   font-size: 25px;
 }
 .temp-text-big {
@@ -35,15 +35,23 @@
   position: absolute;
   left: 17px;
   top: 19px;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 #search-bar {
   border-radius: 500px;
   height: 60px;
-  max-width: 80;
   text-overflow: ellipsis;
   width: 100%;
   padding: 6px 48px;
+  color: white;
+  border: none;
+  background-color: #1a1c49;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
 }
 
 .slide-in-left {
