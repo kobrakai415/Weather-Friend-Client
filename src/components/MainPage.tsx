@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { IoIosCloudy } from "react-icons/io"
 import { format } from 'date-fns';
-
+import ThreeHourForecastContainer from './ThreeHourForecastContainer'
 
 const ApiUrl = process.env.REACT_APP_API_URL
 const ApiKey = process.env.REACT_APP_API_KEY
@@ -22,54 +22,66 @@ interface Data {
     dt_txt: string
 }
 
+interface Coord {
+    lat: number
+    lon: number
+}
+
 const MainPage = () => {
 
     const [query, setQuery] = useState("")
-    const [data, setData] = useState<Data[] | []>([])
+    const [dailyForecast, setDailyForecast] = useState<Data[] | []>([])
+    const [cityCoord, setCityCoord] = useState<Coord | null>(null)
+    const [fourDayForecast, setFourDayForecast] = useState([])
 
-    const fetchWeather = async () => {
+    const fetchTodaysWeather = async () => {
 
         try {
-            const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${query}&units=metric&cnt=5&appid=${ApiKey}`)
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${query.length > 2 ? query : "london"}&units=metric&cnt=5&appid=${ApiKey}`)
 
             if (res.ok) {
                 const json = await res.json()
+                setCityCoord(json.city.coord)
+                console.log(json)
                 console.log(json.list)
-                setData(json.list)
+                setDailyForecast(json.list)
             }
         } catch (error) {
             console.error(error)
         }
     }
 
-    const fetchMap = async () => {
+    const fetch4DayForecast = async () => {
         try {
-            const res = await fetch(`http://maps.openweathermap.org/maps/2.0/weather/{cl}/{10}/{10}/{10}?appid=${ApiKey}`)
-
-            const json = await res.json()
-
-            console.log(json)
-
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly&units=metric&appid=${ApiKey}`)
+            console.log(res)
+            if (res.ok) {
+                const json = await res.json()
+                console.log(json)
+                setFourDayForecast(json.daily)
+            }
         } catch (error) {
             console.log(error)
         }
     }
 
+
+
     useEffect(() => {
-        if (query.length > 2) {
-            fetchMap()
-            fetchWeather();
-        }
+       
+            fetchTodaysWeather();
+        
     }, [query])
 
-
+    useEffect(() => {
+        fetch4DayForecast();
+    }, [cityCoord])
 
     return (
         <>
-            <Container>
+            <Container className="p-3" style={{ minHeight: "100vh" }}>
                 <Row>
-                    <Col>
-                    </Col>
+                    <h1>Weather Forecast</h1>
                     <Col xs={12}>
                         <div id="search-bar-parent">
                             <input id="search-bar" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Check the weather ..." />
@@ -79,77 +91,58 @@ const MainPage = () => {
                         </div>
                     </Col>
 
-                    {data.length > 0 &&
-                        <Col xs={12} className="mt-4">
+                    {dailyForecast.length > 0 &&
+                        <Col xs={12} className="my-4 slide-in-left">
+                            <h1 className="p-2 text-capitalize">
+                                {query.length > 2 ? query : "London"}
+                            </h1>
 
-                            <div className="d-flex flex-column">
-                                <h4 className="p-2">
-                                    {query}
-                                </h4>
+                            <Row className="light-bg mx-0 p-3">
+                                <Col lg={6}>
+                                    <div className="d-flex flex-column ">
 
-                                <div className="d-flex p-2">
-                                    <div className="pe-3" style={{ borderRight: "solid" }}>
-                                        <img height="100px" width="100px" src={`http://openweathermap.org/img/wn/${data[0].weather[0]?.icon}@2x.png`} />
-
-                                    </div>
-
-                                    <div className="d-flex align-items-center">
-                                        <div className="d-flex ms-2 flex-column">
-                                            <h6>{data[0].main.temp_max}°</h6>
-                                            <h6>{data[0].main.temp_min}°</h6>
+                                        <div className=" text-capitalize d-flex flex-row justify-content-between align-items-center">
+                                            <strong className="today">Today</strong> <span className="me-5">{format(new Date(), "EEE, d MMM")}</span>
                                         </div>
+                                        <div className="d-flex">
 
-                                        <h6 className="ps-3">
-                                            {data[0].weather[0]?.description}
-                                        </h6>
-                                    </div>
-                                </div>
+                                            <div className="d-flex flex-column justify-content-center">
+                                                <div className="temp-text-big ms-2 ">
+                                                    <span>{dailyForecast[0].main.temp} </span><span className="yellow-text">°C</span>
 
-                            </div>
+                                                </div>
 
+                                                <h6 className="ps-3">
+                                                    {dailyForecast[0].weather[0]?.description}
+                                                </h6>
+                                            </div>
+                                            <div className="pe-3" >
+                                                <img className="img-fluid" height="200px" width="200px" src={`http://openweathermap.org/img/wn/${dailyForecast[0].weather[0]?.icon}@2x.png`} />
 
+                                            </div >
+                                        </div >
 
-                        </Col>
+                                    </div >
+                                </Col >
+
+                            </Row >
+                        </Col >
 
                     }
 
-                    <Col >
-                        <Row>
-
-                            {data.slice(1, 5).map((day, index) => {
-
-                                return (
-                                    <Col key={index} xs={12} md={3}>
-                                        <div className="d-flex flex-column">
-                                            <h4 className="p-2">
-                                                {format(new Date(day.dt_txt), "p")}
-                                            </h4>
-
-                                            <div className="d-flex p-2">
-                                                <div className="pe-3" style={{ borderRight: "solid" }}>
-                                                    <img height="100px" width="100px" src={`http://openweathermap.org/img/wn/${day.weather[0]?.icon}@2x.png`} />
-
-                                                </div>
-
-                                                <div className="d-flex align-items-center">
-                                                    <div className="d-flex ms-2 flex-column">
-                                                        <h6>{day.main.temp_max} °</h6>
-                                                        <h6>{day.main.temp_min}°</h6>
-                                                    </div>
 
 
-                                                </div>
-                                            </div>
+                    {
+                        dailyForecast.slice(1, 5).map((forecast, index) => {
 
-                                        </div>
-                                    </Col>
-                                )
-                            })}
-                        </Row>
-                    </Col>
+                            return (
+                                <ThreeHourForecastContainer key={index} forecast={forecast} />
+                            )
+                        })
+                    }
 
-                </Row>
-            </Container>
+                </Row >
+            </Container >
 
 
         </>
