@@ -8,9 +8,7 @@ interface Props {
 }
 
 
-
 const CurrentWeather = ({ currentWeather, query }: Props) => {
-
 
     return (
         <Col xs={12} className="my-3 slide-in-left">
@@ -28,21 +26,30 @@ const CurrentWeather = ({ currentWeather, query }: Props) => {
                             <div className="d-flex flex-column justify-content-center">
                                 <div className="temp-text-big ms-2 ">
                                     <span>{currentWeather.main.temp} </span><span className="yellow-text">°C</span>
-
                                 </div>
-
                                 <h6 className="ps-3">
                                     {currentWeather.weather[0]?.description}
                                 </h6>
                             </div>
                             <div className="pe-3" >
                                 <img className="img-fluid" height="200px" width="200px" src={`http://openweathermap.org/img/wn/${currentWeather.weather[0]?.icon}@2x.png`} />
-
                             </div >
                         </div >
-
                     </div >
                 </Col >
+
+                <Col className="d-flex flex-column align-items-center" xs={12} lg={6} >
+
+                    <div className="d-flex my-auto flex-column justify-content-center align-items-center ">
+                        <img className="img-fluid" height="100px" width="100px" src={`/wind1.png`} />
+                        <span className="wind-text">{currentWeather.wind.speed}</span>
+                        <div className="text-muted d-flex flex-row ">
+                            <span>Degrees: </span>
+                            <span> {currentWeather.wind.deg}°</span>
+                        </div>
+                    </div>
+
+                </Col>
             </Row >
         </Col >
     )

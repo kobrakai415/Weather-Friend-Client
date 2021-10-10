@@ -14,13 +14,12 @@ const Container = ({ forecast }: MyProps) => {
 
             <div className="d-flex align-items-center justify-content-center" >
                 <div className="d-flex flex-column px-1">
+
                     <span className="text-muted time-text">
                         {format(new Date(forecast.dt_txt), "p")}
                     </span>
-
                     <div className="d-flex temp-text ">
                         <span >{forecast.main.temp}</span> <span className="ps-1 yellow-text">°C</span>
-
                     </div>
                     <span className="time-text" >{forecast.weather[0]?.description}</span>
 

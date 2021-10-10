@@ -79,21 +79,6 @@ const MainPage = () => {
         }
     }
 
-    const fetchCityForecast = async (city: string) => {
-        try {
-            const res = await fetch(`${ApiUrl}/forecast?q=${city}&units=metric&cnt=5&appid=${ApiKey}`)
-
-            if (res.ok) {
-                const json = await res.json()
-                console.log(json)
-
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
     const fetchCityForecasts = async (cities: CityInterface[]) => {
         try {
 
@@ -104,7 +89,6 @@ const MainPage = () => {
                 const res = await fetch(`${ApiUrl}/forecast?q=${item.city}&units=metric&cnt=5&appid=${ApiKey}`)
                 if (res.ok) {
                     const json = await res.json()
-                    console.log(json)
                     results.push(
                         {
                             data: json,
