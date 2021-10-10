@@ -1,6 +1,8 @@
 import react from 'react'
 import Ticker from 'react-ticker'
 import CityContainer from './CityContainer'
+import Citiess from './Cities'
+
 
 interface Props {
     cities: CityForecastData[]
@@ -8,9 +10,9 @@ interface Props {
 const CitiesTicker = ({ cities }: Props) => {
 
     return (
-        <Ticker speed={10}>
+        <Ticker  speed={10}>
 
-            {() => cities.map(item => <CityContainer city={item} />)}
+            {() => <Citiess cities={cities} />}
 
         </Ticker>
     )

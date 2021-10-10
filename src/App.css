@@ -15,6 +15,11 @@
   font-size: 25px;
   font-weight: 750;
 }
+.temp-text2 {
+  font-size: 16px;
+  font-weight: 750;
+}
+
 .today {
   font-size: 25px;
 }
@@ -29,17 +34,16 @@
 
 #search-bar-parent {
   position: relative;
-  margin-top: 10px;
 }
 .search-bar-glass {
   position: absolute;
   left: 17px;
-  top: 19px;
+  top: 29px;
   color: rgb(255, 255, 255);
 }
 #search-bar {
   border-radius: 500px;
-  height: 60px;
+  height: 80px;
   text-overflow: ellipsis;
   width: 100%;
   padding: 6px 48px;
@@ -97,7 +101,6 @@
   }
 }
 
-.ticker{
-  background-color: #1a1c49;
-  border-radius: 20px;
+.city-container{
+  width: 14rem;
 }

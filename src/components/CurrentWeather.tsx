@@ -13,7 +13,7 @@ const CurrentWeather = ({ currentWeather, query }: Props) => {
 
 
     return (
-        <Col xs={12} className="my-4 slide-in-left">
+        <Col xs={12} className="my-3 slide-in-left">
             <h1 className="p-2 text-capitalize">
                 {query.length > 2 ? query : "London"}
             </h1>

@@ -2,12 +2,13 @@ interface Weather {
     description: string,
     icon: string
 }
+interface Main {
+    temp: number
+    temp_min: number
+    temp_max: number
+}
 interface Data {
-    main: {
-        temp: number
-        temp_min: number
-        temp_max: number
-    }
+    main: Main
     weather: Weather[]
     name: string
     dt_txt: string
@@ -36,7 +37,16 @@ interface CityInterface {
     country: string
 }
 
+interface ListItem {
+    main: Main
+    weather: Weather[]
+
+}
+interface CityData {
+    list: ListItem []
+   
+}
 interface CityForecastData {
     city: CityInterface
-    data: object
+    data: CityData
 }
