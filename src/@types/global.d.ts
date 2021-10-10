@@ -30,3 +30,13 @@ interface DailyForecast {
     wind_gust: number
     wind_speed: number
 }
+
+interface CityInterface {
+    city: string
+    country: string
+}
+
+interface CityForecastData {
+    city: CityInterface
+    data: object
+}

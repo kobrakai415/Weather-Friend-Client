@@ -12,7 +12,7 @@ const Container = ({ forecast }: MyProps) => {
     return (
         <Col xs={12} md={3}>
 
-            <div className="d-flex align-items-center" >
+            <div className="d-flex align-items-center justify-content-center" >
                 <div className="d-flex flex-column px-1">
                     <span className="text-muted time-text">
                         {format(new Date(forecast.dt_txt), "p")}

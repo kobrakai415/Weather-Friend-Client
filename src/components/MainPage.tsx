@@ -3,9 +3,40 @@ import { Container, Row, Col } from 'react-bootstrap';
 import ThreeHourForecastContainer from './ThreeHourForecastContainer'
 import CurrentWeather from './CurrentWeather';
 import DailyForecastContainer from './DailyForecastContainer';
+import CitiesTicker from './CitiesTicker';
+
 
 const ApiUrl = process.env.REACT_APP_API_URL
 const ApiKey = process.env.REACT_APP_API_KEY
+
+
+const cities: CityInterface[] = [
+    {
+        city: "London",
+        country: "United Kingdom"
+    },
+    {
+        city: "Barcelona",
+        country: "Spain"
+    },
+    {
+        city: "Paris",
+        country: "United Kingdom"
+    },
+    {
+        city: "Berlin",
+        country: "Germany"
+    },
+    {
+        city: "Rome",
+        country: "Italy"
+    },
+    {
+        city: "Zurich",
+        country: "Switzerland"
+    }
+]
+
 
 const MainPage = () => {
 
@@ -13,6 +44,8 @@ const MainPage = () => {
     const [dailyForecast, setDailyForecast] = useState<Data[] | []>([])
     const [cityCoord, setCityCoord] = useState<Coord | null>(null)
     const [fourDayForecast, setFourDayForecast] = useState<DailyForecast[] | []>([])
+    const [citiesForecasts, setCitiesForecasts] = useState<CityForecastData[] | []>([])
+
 
     const fetchTodaysWeather = async () => {
 
@@ -46,6 +79,57 @@ const MainPage = () => {
         }
     }
 
+    const fetchCityForecast = async (city: string) => {
+        try {
+            const res = await fetch(`${ApiUrl}/forecast?q=${city}&units=metric&cnt=5&appid=${ApiKey}`)
+
+            if (res.ok) {
+                const json = await res.json()
+                console.log(json)
+
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    const fetchCityForecasts = async (cities: CityInterface[]) => {
+        try {
+
+            let results: CityForecastData[] = []
+
+            cities.map(async (item) => {
+
+                const res = await fetch(`${ApiUrl}/forecast?q=${item.city}&units=metric&cnt=5&appid=${ApiKey}`)
+                if (res.ok) {
+                    const json = await res.json()
+                    console.log(json)
+                    results.push(
+                        {
+                            data: json,
+                            city: {
+                                city: item.city,
+                                country: item.country
+                            }
+                        }
+                    )
+                }
+
+            })
+
+            setCitiesForecasts(results)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        console.log(ApiKey)
+        fetchCityForecasts(cities)
+    }, [])
+
     useEffect(() => {
         fetchTodaysWeather();
     }, [query])
@@ -67,12 +151,16 @@ const MainPage = () => {
                             </div>
 
                             <div className="d-flex align-items-center nav-items">
-                                <img className="me-2" height="35px" width="35px" src="/favorite.png" alt="favourites" />
+                                <img className="me-2" height="35px" width="40px" src="/favorite.png" alt="favourites" />
                                 <img height="27px" width="27px" src="/user.png" alt="user" />
 
                             </div>
 
                         </div>
+                    </Col>
+                    <Col xs={12}>
+                        {citiesForecasts.length > 0 ? <CitiesTicker cities={citiesForecasts} /> : null}
+                        
                     </Col>
                     <Col xs={12}>
                         <div id="search-bar-parent">
@@ -83,6 +171,8 @@ const MainPage = () => {
                         </div>
                     </Col>
                 </Row>
+
+
 
                 {dailyForecast.length > 0 ?
                     <>

@@ -96,3 +96,8 @@
     opacity: 1;
   }
 }
+
+.ticker{
+  background-color: #1a1c49;
+  border-radius: 20px;
+}

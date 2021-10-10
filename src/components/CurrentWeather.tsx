@@ -7,6 +7,8 @@ interface Props {
     query: string
 }
 
+
+
 const CurrentWeather = ({ currentWeather, query }: Props) => {
 
 
