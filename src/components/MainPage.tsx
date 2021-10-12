@@ -21,7 +21,7 @@ const cities: CityInterface[] = [
     },
     {
         city: "Paris",
-        country: "United Kingdom"
+        country: "France"
     },
     {
         city: "Berlin",
