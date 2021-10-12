@@ -21,7 +21,7 @@ const DailyForecastContainer = ({ day }: Props) => {
     return (
         <Col className="my-1 my-md-4 slide-in-left" xs={12} md={6} lg={3}>
             {date && <h3 className="px-2 py-2">{format(date, "EEEE")}</h3>}
-            <div className="d-flex flex-column light-bg p-2">
+            <div className="d-flex flex-column light-bg p-3 p-md-2 ">
                 <div className="d-flex align-items-center justify-content-around" >
                     <div className="d-flex flex-column">
                         <div className="d-flex temp-text ">
