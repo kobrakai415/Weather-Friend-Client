@@ -6,6 +6,8 @@ interface Main {
   temp: number;
   temp_min: number;
   temp_max: number;
+  humidity: number;
+  pressure: number;
 }
 interface Data {
   main: Main;

@@ -16,7 +16,7 @@ const CurrentWeather = ({ currentWeather, query }: Props) => {
                 {query.length > 2 ? query : "London"}
             </h1>
 
-            <Row className="light-bg mx-0 p-3">
+            <Row className="light-bg mx-0 p-3 ps-4">
                 <Col lg={6}>
                     <div >
                         <div className=" text-capitalize d-flex flex-row justify-content-between align-items-center">
@@ -38,9 +38,10 @@ const CurrentWeather = ({ currentWeather, query }: Props) => {
                     </div >
                 </Col >
 
-                <Col className="d-flex flex-column align-items-center" xs={12} lg={6} >
+                <Col className="d-flex flex-column align-items-center" xs={12} lg={3} >
 
-                    <div className="d-flex my-auto flex-column justify-content-center align-items-center ">
+
+                    <div className="d-flex my-auto flex-column align-items-center ">
                         <img className="img-fluid" height="100px" width="100px" src={`/wind1.png`} />
                         <span className="wind-text">{currentWeather.wind.speed}</span>
                         <div className="text-muted d-flex flex-row ">
@@ -48,8 +49,19 @@ const CurrentWeather = ({ currentWeather, query }: Props) => {
                             <span> {currentWeather.wind.deg}°</span>
                         </div>
                     </div>
-
                 </Col>
+
+                <Col className="d-flex flex-column align-items-center" xs={12} lg={3} >
+                    <div className="d-flex my-auto flex-column align-items-center ">
+                        <img className="img-fluid" height="100px" width="100px" src="/humidity.png" alt="humidity" />
+                        <span className="wind-text">{currentWeather.main.humidity}%</span>
+                        <div className="text-muted d-flex flex-row ">
+                                <span>Pressure: </span>
+                                <span> {currentWeather.main.pressure}</span>
+                            </div>
+                    </div>
+                </Col >
+
             </Row >
         </Col >
     )
