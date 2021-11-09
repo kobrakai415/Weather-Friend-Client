@@ -16,12 +16,10 @@ interface Data {
   dt_txt: string;
   wind: { deg: number; gust: number; speed: number };
 }
-
 interface Coord {
   lat: number;
   lon: number;
 }
-
 interface DailyForecast {
   dt: number;
   weather: Weather[];

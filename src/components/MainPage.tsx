@@ -125,7 +125,7 @@ const MainPage = () => {
 
     return (
         <>
-            <Container className="p-3" style={{ minHeight: "100vh" }}>
+            <Container className="p-3 slide-in-left" style={{ minHeight: "100vh" }}>
                 <Row>
                     <Col xs={12}>
                         <div className="py-3 my-2 d-flex justify-content-between align-items-center">
@@ -144,7 +144,7 @@ const MainPage = () => {
                     </Col>
                     <Col xs={12}>
                         {citiesForecasts.length > 0 ? <CitiesTicker cities={citiesForecasts} /> : null}
-                        
+
                     </Col>
                     <Col xs={12}>
                         <div className="mt-3" id="search-bar-parent">
